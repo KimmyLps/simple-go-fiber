@@ -1,21 +1,21 @@
+// +build ignore
 package routes
 
 import (
-	"test/controllers"
-	c "test/controllers"
+	"github.com/KimmyLps/test/controllers"
+	c "github.com/KimmyLps/test/controllers"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/basicauth"
 )
 
 func RouteTest(app *fiber.App) {
 
 	// 5.0
-	app.Use(basicauth.New(basicauth.Config{
-		Users: map[string]string{
-			"gofiber": "21022566",
-		},
-	}))
+	// app.Use(basicauth.New(basicauth.Config{
+	// 	Users: map[string]string{
+	// 		"gofiber": "21022566",
+	// 	},
+	// }))
 
 	api := app.Group("/api")
 
@@ -30,6 +30,6 @@ func RouteTest(app *fiber.App) {
 	v2.Get("/valid", c.ValidateTest)
 
 	v3 := api.Group("/v3")
-	v3.Get("/fac/:factorial", c.CalculateFac) // 5.1
+	v3.Get("/fac/:factorial", c.CalculateFac)    // 5.1
 	v3.Get("/:tax_id", controllers.ConvertAscii) // 5.2
 }

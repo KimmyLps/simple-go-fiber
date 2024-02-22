@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:
+
+  db:
+    image: mariadb
+    container_name: db-container
+    restart: always
+    environment:
+      MARIADB_USER: ${DB_USER}
+      MARIADB_ROOT_PASSWORD: ${DB_PASS}
+      MARIADB_PASSWORD: ${DB_PASS}
+      MARIADB_DATABASE: ${DB_NAME}
+    volumes:
+      - data:/var/lib/mysql
+
+  go_fiber:
+    image: kimmydev/go-fiber
+    container_name: go-fiber-container
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+    ports:
+      - 4000:3000
+    depends_on:
+      - db
+
+  pma:
+    image: phpmyadmin
+    container_name: pma-container
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: ${DB_HOST}
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASS}
+      PMA_PORT: ${DB_PORT}
+    depends_on:
+      - db
+
+      
+volumes:
+  data:

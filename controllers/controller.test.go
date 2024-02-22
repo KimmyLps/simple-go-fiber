@@ -1,3 +1,4 @@
+// +build ignore
 package controllers
 
 import (
@@ -5,7 +6,7 @@ import (
 	"log"
 	// "regexp"
 	"strconv"
-	m "test/models"
+	m "github.com/KimmyLps/test/models"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
